@@ -59,9 +59,9 @@ function New-BuildProfile() {
 
   # Modification PATH variable.
   Write-Msg -Title -Message "--- Modification PATH variable..."
-  # $Env:Path += ";$($d_app)\Git"
-  $Env:Path += ";$($d_app)\PHP"
-  $Env:Path += ";$($d_app)\OpenSSL"
+  # if ( ( Test-Path "$($d_app)\Git" ) ) { $Env:Path += ";$($d_app)\Git" }
+  if ( ( Test-Path "$($d_app)\PHP" ) ) { $Env:Path += ";$($d_app)\PHP" }
+  if ( ( Test-Path "$($d_app)\OpenSSL" ) ) { $Env:Path += ";$($d_app)\OpenSSL" }
 }
 
 # -------------------------------------------------------------------------------------------------------------------- #
