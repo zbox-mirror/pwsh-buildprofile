@@ -22,7 +22,7 @@ function Start-BuildProfile() {
 
 function New-BuildProfile() {
   # Directories.
-  $d_app        = "D:\Apps"
+  $d_apps       = "D:\Apps"
   $d_docs       = "D:\Documents"
   $d_downloads  = "D:\Downloads"
   $d_music      = "D:\Music"
@@ -32,7 +32,7 @@ function New-BuildProfile() {
 
   # Check directories.
   Write-Msg -Title -Message "--- Check & Create Directories on Disk D:..."
-  if ( ! ( Test-Path "$($d_app)" ) ) { New-Item -Path "$($d_app)" -ItemType "Directory" }
+  if ( ! ( Test-Path "$($d_apps)" ) ) { New-Item -Path "$($d_apps)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_docs)" ) ) { New-Item -Path "$($d_docs)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_downloads)" ) ) { New-Item -Path "$($d_downloads)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_music)" ) ) { New-Item -Path "$($d_music)" -ItemType "Directory" }
@@ -42,15 +42,15 @@ function New-BuildProfile() {
 
   # Extract apps.
   Write-Msg -Title -Message "--- Extract Apps..."
-  Expand-7z -In "$($PSScriptRoot)\Apps\Far\Far.7z" -Out "$($d_app)"
-  # Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\KiTTY\KiTTY.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\MPC-HC\MPC-HC.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\OBS-Studio\OBS-Studio.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\PHP\PHP.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\Tixati\Tixati.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\VSCode\VSCode.7z" -Out "$($d_app)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\OpenSSL\OpenSSL.7z" -Out "$($d_app)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\Far\Far.7z" -Out "$($d_apps)"
+  # Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\KiTTY\KiTTY.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\MPC-HC\MPC-HC.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\OBS-Studio\OBS-Studio.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\PHP\PHP.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\Tixati\Tixati.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\VSCode\VSCode.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\OpenSSL\OpenSSL.7z" -Out "$($d_apps)"
 
   # Copy settings.
   # Write-Msg -Title -Message "--- Copy Settings..."
@@ -59,9 +59,9 @@ function New-BuildProfile() {
 
   # Modification PATH variable.
   Write-Msg -Title -Message "--- Modification PATH variable..."
-  # if ( ( Test-Path "$($d_app)\Git" ) ) { $Env:Path += ";$($d_app)\Git" }
-  if ( ( Test-Path "$($d_app)\PHP" ) ) { $Env:Path += ";$($d_app)\PHP" }
-  if ( ( Test-Path "$($d_app)\OpenSSL" ) ) { $Env:Path += ";$($d_app)\OpenSSL" }
+  # if ( ( Test-Path "$($d_apps)\Git" ) ) { $Env:Path += ";$($d_apps)\Git" }
+  if ( ( Test-Path "$($d_apps)\PHP" ) ) { $Env:Path += ";$($d_apps)\PHP" }
+  if ( ( Test-Path "$($d_apps)\OpenSSL" ) ) { $Env:Path += ";$($d_apps)\OpenSSL" }
 }
 
 # -------------------------------------------------------------------------------------------------------------------- #
