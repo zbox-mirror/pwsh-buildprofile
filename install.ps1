@@ -12,15 +12,6 @@
 # -------------------------------------------------------------------------------------------------------------------- #
 
 function Start-BuildProfile() {
-  # Run.
-  New-BuildProfile
-}
-
-# -------------------------------------------------------------------------------------------------------------------- #
-# BUILD PROFILE.
-# -------------------------------------------------------------------------------------------------------------------- #
-
-function New-BuildProfile() {
   # Directories.
   $d_apps       = "D:\Apps"
   $d_docs       = "D:\Documents"
@@ -30,8 +21,20 @@ function New-BuildProfile() {
   $d_torrents   = "D:\Torrents"
   $d_videos     = "D:\Videos"
 
-  # Check directories.
-  Write-Msg -Title -Message "--- Check & Create Directories on Disk D:..."
+  # Run.
+  Start-BPDirs
+  Start-BPInstallApps
+  Start-BPInstallDocs
+  Start-BPInstallPath
+}
+
+# -------------------------------------------------------------------------------------------------------------------- #
+# BUILD PROFILE.
+# -------------------------------------------------------------------------------------------------------------------- #
+
+# Check directories.
+function Start-BPDirs() {
+  Write-BPMsg -Title -Message "--- Check & Create Directories on Disk D:..."
   if ( ! ( Test-Path "$($d_apps)" ) ) { New-Item -Path "$($d_apps)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_docs)" ) ) { New-Item -Path "$($d_docs)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_downloads)" ) ) { New-Item -Path "$($d_downloads)" -ItemType "Directory" }
@@ -39,9 +42,11 @@ function New-BuildProfile() {
   if ( ! ( Test-Path "$($d_pictures)" ) ) { New-Item -Path "$($d_pictures)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_torrents)" ) ) { New-Item -Path "$($d_torrents)" -ItemType "Directory" }
   if ( ! ( Test-Path "$($d_videos)" ) ) { New-Item -Path "$($d_videos)" -ItemType "Directory" }
+}
 
-  # Extract apps.
-  Write-Msg -Title -Message "--- Extract Apps..."
+# Install apps.
+function Start-BPInstallApps() {
+  Write-BPMsg -Title -Message "--- Install Apps..."
   Expand-7z -In "$($PSScriptRoot)\Apps\Far\Far.7z" -Out "$($d_apps)"
   # Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\KiTTY\KiTTY.7z" -Out "$($d_apps)"
@@ -51,14 +56,18 @@ function New-BuildProfile() {
   Expand-7z -In "$($PSScriptRoot)\Apps\Tixati\Tixati.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\VSCode\VSCode.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\OpenSSL\OpenSSL.7z" -Out "$($d_apps)"
+}
 
-  # Copy settings.
-  # Write-Msg -Title -Message "--- Copy Settings..."
-  # Copy-Item "$($PSScriptRoot)\Docs\Git\.gitconfig" -Destination "$($Env:USERPROFILE)"
-  # Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
+# Install docs.
+function Start-BPInstallDocs() {
+  Write-BPMsg -Title -Message "--- Install Documents..."
+  Copy-Item "$($PSScriptRoot)\Docs\Git\.gitconfig" -Destination "$($Env:USERPROFILE)"
+  Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
+}
 
-  # Modification PATH variable.
-  Write-Msg -Title -Message "--- Modification PATH variable..."
+# Install PATH variable.
+function Start-BPInstallPath() {
+  Write-BPMsg -Title -Message "--- Install PATH variable..."
   if ( Test-Path "$($d_apps)\Git" ) {
     [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\Git;", "User" )
   }
@@ -74,7 +83,7 @@ function New-BuildProfile() {
 # ------------------------------------------------< COMMON FUNCTIONS >------------------------------------------------ #
 # -------------------------------------------------------------------------------------------------------------------- #
 
-function Write-Msg() {
+function Write-BPMsg() {
   param (
     [string]$Message,
     [switch]$Title = $false
