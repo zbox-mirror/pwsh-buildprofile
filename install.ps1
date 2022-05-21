@@ -7,19 +7,29 @@
 
 #Requires -Version 7.2
 
+Param(
+  [Parameter(
+    Mandatory,
+    HelpMessage="Drive letter."
+  )]
+  [ValidatePattern("^[A-Z]$")]
+  [Alias("DL")]
+  [string]$DriveLetter
+)
+
 # -------------------------------------------------------------------------------------------------------------------- #
 # INITIALIZATION.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 function Start-BuildProfile() {
   # Directories.
-  $d_apps       = "D:\Apps"
-  $d_docs       = "D:\Documents"
-  $d_downloads  = "D:\Downloads"
-  $d_music      = "D:\Music"
-  $d_pictures   = "D:\Pictures"
-  $d_torrents   = "D:\Torrents"
-  $d_videos     = "D:\Videos"
+  $d_apps       = "$($DriveLetter):\Apps"
+  $d_docs       = "$($DriveLetter):\Documents"
+  $d_downloads  = "$($DriveLetter):\Downloads"
+  $d_music      = "$($DriveLetter):\Music"
+  $d_pictures   = "$($DriveLetter):\Pictures"
+  $d_torrents   = "$($DriveLetter):\Torrents"
+  $d_videos     = "$($DriveLetter):\Videos"
 
   # Run.
   Start-BPDirs
