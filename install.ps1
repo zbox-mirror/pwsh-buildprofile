@@ -59,9 +59,18 @@ function New-BuildProfile() {
 
   # Modification PATH variable.
   Write-Msg -Title -Message "--- Modification PATH variable..."
-  # if ( ( Test-Path "$($d_apps)\Git" ) ) { $Env:Path += ";$($d_apps)\Git" }
-  if ( ( Test-Path "$($d_apps)\PHP" ) ) { $Env:Path += ";$($d_apps)\PHP" }
-  if ( ( Test-Path "$($d_apps)\OpenSSL" ) ) { $Env:Path += ";$($d_apps)\OpenSSL" }
+  if ( Test-Path "$($d_apps)\Git" ) {
+    [Environment]::SetEnvironmentVariable
+      ( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\Git", [System.EnvironmentVariableTarget]::User )
+  }
+  if ( Test-Path "$($d_apps)\PHP" ) {
+    [Environment]::SetEnvironmentVariable
+      ( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\PHP", [System.EnvironmentVariableTarget]::User )
+  }
+  if ( Test-Path "$($d_apps)\OpenSSL" ) {
+    [Environment]::SetEnvironmentVariable
+      ( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\OpenSSL", [System.EnvironmentVariableTarget]::User )
+  }
 }
 
 # -------------------------------------------------------------------------------------------------------------------- #
