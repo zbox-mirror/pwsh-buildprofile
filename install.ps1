@@ -60,16 +60,13 @@ function New-BuildProfile() {
   # Modification PATH variable.
   Write-Msg -Title -Message "--- Modification PATH variable..."
   if ( Test-Path "$($d_apps)\Git" ) {
-    [Environment]::SetEnvironmentVariable
-      ( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\Git", [System.EnvironmentVariableTarget]::User )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\Git", "User" )
   }
   if ( Test-Path "$($d_apps)\PHP" ) {
-    [Environment]::SetEnvironmentVariable
-      ( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\PHP", [System.EnvironmentVariableTarget]::User )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\PHP", "User" )
   }
   if ( Test-Path "$($d_apps)\OpenSSL" ) {
-    [Environment]::SetEnvironmentVariable
-      ( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\OpenSSL", [System.EnvironmentVariableTarget]::User )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + ";$($d_apps)\OpenSSL", "User" )
   }
 }
 
