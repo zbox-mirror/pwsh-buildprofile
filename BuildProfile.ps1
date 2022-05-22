@@ -58,14 +58,16 @@ function Start-BPDirs() {
 function Start-BPInstallApps() {
   Write-BPMsg -Title -Message "--- Install Apps..."
   Expand-7z -In "$($PSScriptRoot)\Apps\Far\Far.7z" -Out "$($d_apps)"
-  # Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\IrfanView\IrfanView.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\KiTTY\KiTTY.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\MPC-HC\MPC-HC.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\OBS-Studio\OBS-Studio.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\OpenSSL\OpenSSL.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\PHP\PHP.7z" -Out "$($d_apps)"
+  Expand-7z -In "$($PSScriptRoot)\Apps\SumatraPDF\SumatraPDF.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\Tixati\Tixati.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\VSCode\VSCode.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\OpenSSL\OpenSSL.7z" -Out "$($d_apps)"
 }
 
 # Install docs.
@@ -79,7 +81,7 @@ function Start-BPInstallDocs() {
 function Start-BPInstallPath() {
   Write-BPMsg -Title -Message "--- Install PATH variable..."
   if ( Test-Path "$($d_apps)\Git" ) {
-    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\Git;", "User" )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\Git\bin;", "User" )
   }
   if ( Test-Path "$($d_apps)\PHP" ) {
     [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\PHP;", "User" )
