@@ -45,13 +45,13 @@ function Start-BuildProfile() {
 # Check directories.
 function Start-BPDirs() {
   Write-BPMsg -Title -Message "--- Check & Create Directories on Disk D:..."
-  if ( ! ( Test-Path "$($d_apps)" ) ) { New-Item -Path "$($d_apps)" -ItemType "Directory" }
-  if ( ! ( Test-Path "$($d_docs)" ) ) { New-Item -Path "$($d_docs)" -ItemType "Directory" }
-  if ( ! ( Test-Path "$($d_downloads)" ) ) { New-Item -Path "$($d_downloads)" -ItemType "Directory" }
-  if ( ! ( Test-Path "$($d_music)" ) ) { New-Item -Path "$($d_music)" -ItemType "Directory" }
-  if ( ! ( Test-Path "$($d_pictures)" ) ) { New-Item -Path "$($d_pictures)" -ItemType "Directory" }
-  if ( ! ( Test-Path "$($d_torrents)" ) ) { New-Item -Path "$($d_torrents)" -ItemType "Directory" }
-  if ( ! ( Test-Path "$($d_videos)" ) ) { New-Item -Path "$($d_videos)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_apps)" ) ) { New-Item -Path "$($d_apps)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_docs)" ) ) { New-Item -Path "$($d_docs)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_downloads)" ) ) { New-Item -Path "$($d_downloads)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_music)" ) ) { New-Item -Path "$($d_music)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_pictures)" ) ) { New-Item -Path "$($d_pictures)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_torrents)" ) ) { New-Item -Path "$($d_torrents)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($d_videos)" ) ) { New-Item -Path "$($d_videos)" -ItemType "Directory" }
 }
 
 # Install apps.
