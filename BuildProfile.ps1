@@ -31,6 +31,9 @@ function Start-BuildProfile() {
   $d_torrents   = "$($DriveLetter):\Torrents"
   $d_videos     = "$($DriveLetter):\Videos"
 
+  # New line separator.
+  $NL = [Environment]::NewLine
+
   # Run.
   Start-BPDirs
   Start-BPInstallApps
@@ -44,7 +47,7 @@ function Start-BuildProfile() {
 
 # Check directories.
 function Start-BPDirs() {
-  Write-BPMsg -Title -Message "--- Check & Create Directories on Disk D:..."
+  Write-BPMsg -Title -Message "$($NL)--- Check & Create Directories on Disk D:..."
   if ( -not ( Test-Path "$($d_apps)" ) ) { New-Item -Path "$($d_apps)" -ItemType "Directory" }
   if ( -not ( Test-Path "$($d_docs)" ) ) { New-Item -Path "$($d_docs)" -ItemType "Directory" }
   if ( -not ( Test-Path "$($d_downloads)" ) ) { New-Item -Path "$($d_downloads)" -ItemType "Directory" }
@@ -56,7 +59,7 @@ function Start-BPDirs() {
 
 # Install apps.
 function Start-BPInstallApps() {
-  Write-BPMsg -Title -Message "--- Install Apps..."
+  Write-BPMsg -Title -Message "$($NL)--- Install Apps..."
   Expand-7z -In "$($PSScriptRoot)\Apps\Far\Far.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_apps)"
   Expand-7z -In "$($PSScriptRoot)\Apps\IrfanView\IrfanView.7z" -Out "$($d_apps)"
@@ -72,14 +75,14 @@ function Start-BPInstallApps() {
 
 # Install docs.
 function Start-BPInstallDocs() {
-  Write-BPMsg -Title -Message "--- Install Documents..."
+  Write-BPMsg -Title -Message "$($NL)--- Install Documents..."
   Copy-Item "$($PSScriptRoot)\Docs\Git\.gitconfig" -Destination "$($Env:USERPROFILE)"
   Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
 }
 
 # Install PATH variable.
 function Start-BPInstallPath() {
-  Write-BPMsg -Title -Message "--- Install PATH variable..."
+  Write-BPMsg -Title -Message "$($NL)--- Install PATH variable..."
   if ( Test-Path "$($d_apps)\Git" ) {
     [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\Git\bin;", "User" )
   }
