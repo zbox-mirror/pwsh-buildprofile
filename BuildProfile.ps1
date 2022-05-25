@@ -104,6 +104,7 @@ function Write-BPMsg() {
     [string]$Message,
     [switch]$Title = $false
   )
+
   if ( $Title ) {
     Write-Host "$($Message)" -ForegroundColor Blue
   } else {
@@ -116,6 +117,7 @@ function Expand-7z() {
     [string]$In,
     [string]$Out
   )
+
   $7zParams = "x", "$($In)", "-o$($Out)", "-aoa"
   & "$($PSScriptRoot)\_META\7z\7za.exe" @7zParams
 }
