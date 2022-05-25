@@ -23,13 +23,13 @@ Param(
 
 function Start-BuildProfile() {
   # Directories.
-  $d_apps       = "$($DriveLetter):\Apps"
-  $d_docs       = "$($DriveLetter):\Documents"
-  $d_downloads  = "$($DriveLetter):\Downloads"
-  $d_music      = "$($DriveLetter):\Music"
-  $d_pictures   = "$($DriveLetter):\Pictures"
-  $d_torrents   = "$($DriveLetter):\Torrents"
-  $d_videos     = "$($DriveLetter):\Videos"
+  $D_APPS       = "$($DriveLetter):\Apps"
+  $D_DOCS       = "$($DriveLetter):\Documents"
+  $D_DOWNLOADS  = "$($DriveLetter):\Downloads"
+  $D_MUSIC      = "$($DriveLetter):\Music"
+  $D_PICTURES   = "$($DriveLetter):\Pictures"
+  $D_TORRENTS   = "$($DriveLetter):\Torrents"
+  $D_VIDEOS     = "$($DriveLetter):\Videos"
 
   # New line separator.
   $NL = [Environment]::NewLine
@@ -48,34 +48,30 @@ function Start-BuildProfile() {
 # Check directories.
 function Start-BPDirs() {
   Write-BPMsg -Title -Message "$($NL)--- Check & Create Directories on Disk D:..."
-  if ( -not ( Test-Path "$($d_apps)" ) ) { New-Item -Path "$($d_apps)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($d_docs)" ) ) { New-Item -Path "$($d_docs)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($d_downloads)" ) ) { New-Item -Path "$($d_downloads)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($d_music)" ) ) { New-Item -Path "$($d_music)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($d_pictures)" ) ) { New-Item -Path "$($d_pictures)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($d_torrents)" ) ) { New-Item -Path "$($d_torrents)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($d_videos)" ) ) { New-Item -Path "$($d_videos)" -ItemType "Directory" }
+
+  if ( -not ( Test-Path "$($D_APPS)" ) ) { New-Item -Path "$($D_APPS)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($D_DOCS)" ) ) { New-Item -Path "$($D_DOCS)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($D_DOWNLOADS)" ) ) { New-Item -Path "$($D_DOWNLOADS)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($D_MUSIC)" ) ) { New-Item -Path "$($D_MUSIC)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($D_PICTURES)" ) ) { New-Item -Path "$($D_PICTURES)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($D_TORRENTS)" ) ) { New-Item -Path "$($D_TORRENTS)" -ItemType "Directory" }
+  if ( -not ( Test-Path "$($D_VIDEOS)" ) ) { New-Item -Path "$($D_VIDEOS)" -ItemType "Directory" }
 }
 
 # Install apps.
 function Start-BPInstallApps() {
   Write-BPMsg -Title -Message "$($NL)--- Install Apps..."
-  Expand-7z -In "$($PSScriptRoot)\Apps\Far\Far.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\Git\Git.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\IrfanView\IrfanView.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\KiTTY\KiTTY.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\MPC-HC\MPC-HC.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\OBS-Studio\OBS-Studio.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\OpenSSL\OpenSSL.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\PHP\PHP.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\SumatraPDF\SumatraPDF.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\Tixati\Tixati.7z" -Out "$($d_apps)"
-  Expand-7z -In "$($PSScriptRoot)\Apps\VSCode\VSCode.7z" -Out "$($d_apps)"
+
+  $Apps = Get-ChildItem -Path "$($PSScriptRoot)\Apps" -Filter "*.7z" -Recurse
+  foreach ( $App in $Apps ) {
+    Expand-7z -In "$($App.FullName)" -Out "$($D_APPS)"
+  }
 }
 
 # Install docs.
 function Start-BPInstallDocs() {
   Write-BPMsg -Title -Message "$($NL)--- Install Documents..."
+
   Copy-Item "$($PSScriptRoot)\Docs\Git\.gitconfig" -Destination "$($Env:USERPROFILE)"
   Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
 }
@@ -83,14 +79,19 @@ function Start-BPInstallDocs() {
 # Install PATH variable.
 function Start-BPInstallPath() {
   Write-BPMsg -Title -Message "$($NL)--- Install PATH variable..."
-  if ( Test-Path "$($d_apps)\Git" ) {
-    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\Git\bin;", "User" )
+
+  $EnvPathUser = ([Environment]::GetEnvironmentVariables("User")).Path
+
+  if ( Test-Path "$($D_APPS)\Git" ) {
+    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\Git\bin;", "User" )
   }
-  if ( Test-Path "$($d_apps)\PHP" ) {
-    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\PHP;", "User" )
+
+  if ( Test-Path "$($D_APPS)\PHP" ) {
+    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\PHP;", "User" )
   }
-  if ( Test-Path "$($d_apps)\OpenSSL" ) {
-    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($d_apps)\OpenSSL;", "User" )
+
+  if ( Test-Path "$($D_APPS)\OpenSSL" ) {
+    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\OpenSSL;", "User" )
   }
 }
 
