@@ -82,6 +82,10 @@ function Start-BPInstallPath() {
 
   $EnvPathUser = ([Environment]::GetEnvironmentVariables("User")).Path
 
+  if ( Test-Path "$($D_APPS)\7z" ) {
+    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\7z;", "User" )
+  }
+
   if ( Test-Path "$($D_APPS)\Git" ) {
     [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\Git\bin;", "User" )
   }
