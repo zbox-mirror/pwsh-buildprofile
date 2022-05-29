@@ -80,22 +80,20 @@ function Start-BPInstallDocs() {
 function Start-BPInstallPath() {
   Write-BPMsg -Title -Message "$($NL)--- Install PATH variable..."
 
-  $EnvPathUser = ([Environment]::GetEnvironmentVariables("User")).Path
-
   if ( Test-Path "$($D_APPS)\7z" ) {
-    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\7z;", "User" )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\7z;", "User" )
   }
 
   if ( Test-Path "$($D_APPS)\Git" ) {
-    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\Git\bin;", "User" )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\Git\bin;", "User" )
   }
 
   if ( Test-Path "$($D_APPS)\PHP" ) {
-    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\PHP;", "User" )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\PHP;", "User" )
   }
 
   if ( Test-Path "$($D_APPS)\OpenSSL" ) {
-    [Environment]::SetEnvironmentVariable( "Path", $EnvPathUser + "$($D_APPS)\OpenSSL;", "User" )
+    [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\OpenSSL;", "User" )
   }
 }
 
