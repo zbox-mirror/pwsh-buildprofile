@@ -14,7 +14,19 @@ Param(
   )]
   [ValidatePattern("^[A-Z]$")]
   [Alias("DL")]
-  [string]$DriveLetter
+  [string]$DriveLetter,
+
+  [Parameter(HelpMessage="Install applications.")]
+  [Alias("IA")]
+  [switch]$InstallApps = $false,
+
+  [Parameter(HelpMessage="Install documents.")]
+  [Alias("ID")]
+  [switch]$InstallDocs = $false,
+
+  [Parameter(HelpMessage="Install PATH variable.")]
+  [Alias("IP")]
+  [switch]$InstallPath = $false
 )
 
 # -------------------------------------------------------------------------------------------------------------------- #
@@ -35,30 +47,49 @@ function Start-BuildProfile() {
   $NL = [Environment]::NewLine
 
   # Run.
-  Start-BPDirs
-  Start-BPInstallApps
-  Start-BPInstallDocs
-  Start-BPInstallPath
+  Start-BuildData
 }
 
 # -------------------------------------------------------------------------------------------------------------------- #
 # BUILD PROFILE.
 # -------------------------------------------------------------------------------------------------------------------- #
 
-# Check directories.
-function Start-BPDirs() {
-  Write-BPMsg -Title -Message "--- Check & Create Directories on Disk D:..."
+function Start-BuildData() {
+  # Install directories.
+  Start-BPInstallDirs
 
-  if ( -not ( Test-Path "$($D_APPS)" ) ) { New-Item -Path "$($D_APPS)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($D_DOCS)" ) ) { New-Item -Path "$($D_DOCS)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($D_DOWNLOADS)" ) ) { New-Item -Path "$($D_DOWNLOADS)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($D_MUSIC)" ) ) { New-Item -Path "$($D_MUSIC)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($D_PICTURES)" ) ) { New-Item -Path "$($D_PICTURES)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($D_TORRENTS)" ) ) { New-Item -Path "$($D_TORRENTS)" -ItemType "Directory" }
-  if ( -not ( Test-Path "$($D_VIDEOS)" ) ) { New-Item -Path "$($D_VIDEOS)" -ItemType "Directory" }
+  # Install applications.
+  if ( $InstallApps ) { Start-BPInstallApps }
+
+  # Install documents.
+  if ( $InstallDocs ) { Start-BPInstallDocs }
+
+  # Install PATH variable.
+  if ( $InstallPath ) { Start-BPInstallPath }
 }
 
-# Install apps.
+# -------------------------------------------------------------------------------------------------------------------- #
+# ------------------------------------------------< COMMON FUNCTIONS >------------------------------------------------ #
+# -------------------------------------------------------------------------------------------------------------------- #
+
+function Start-BPInstallDirs() {
+  Write-BPMsg -Title -Message "--- Check & Create Directories on Disk D:..."
+
+  $Dirs = @(
+    "$($D_APPS)"
+    "$($D_DOCS)"
+    "$($D_DOWNLOADS)"
+    "$($D_MUSIC)"
+    "$($D_PICTURES)"
+    "$($D_TORRENTS)"
+    "$($D_VIDEOS)"
+  )
+
+  foreach ($Dir in $Dirs) {
+    if ( -not ( Test-Path "$($Dir)" ) ) { New-Item -Path "$($Dir)" -ItemType "Directory" }
+  }
+}
+
 function Start-BPInstallApps() {
   Write-BPMsg -Title -Message "--- Install Apps..."
 
@@ -68,7 +99,6 @@ function Start-BPInstallApps() {
   }
 }
 
-# Install docs.
 function Start-BPInstallDocs() {
   Write-BPMsg -Title -Message "--- Install Documents..."
 
@@ -76,7 +106,6 @@ function Start-BPInstallDocs() {
   Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
 }
 
-# Install PATH variable.
 function Start-BPInstallPath() {
   Write-BPMsg -Title -Message "--- Install PATH variable..."
 
@@ -96,10 +125,6 @@ function Start-BPInstallPath() {
     [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\OpenSSL;", "User" )
   }
 }
-
-# -------------------------------------------------------------------------------------------------------------------- #
-# ------------------------------------------------< COMMON FUNCTIONS >------------------------------------------------ #
-# -------------------------------------------------------------------------------------------------------------------- #
 
 function Write-BPMsg() {
   param (
