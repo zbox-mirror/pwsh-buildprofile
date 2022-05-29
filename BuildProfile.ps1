@@ -47,7 +47,7 @@ function Start-BuildProfile() {
 
 # Check directories.
 function Start-BPDirs() {
-  Write-BPMsg -Title -Message "$($NL)--- Check & Create Directories on Disk D:..."
+  Write-BPMsg -Title -Message "--- Check & Create Directories on Disk D:..."
 
   if ( -not ( Test-Path "$($D_APPS)" ) ) { New-Item -Path "$($D_APPS)" -ItemType "Directory" }
   if ( -not ( Test-Path "$($D_DOCS)" ) ) { New-Item -Path "$($D_DOCS)" -ItemType "Directory" }
@@ -60,7 +60,7 @@ function Start-BPDirs() {
 
 # Install apps.
 function Start-BPInstallApps() {
-  Write-BPMsg -Title -Message "$($NL)--- Install Apps..."
+  Write-BPMsg -Title -Message "--- Install Apps..."
 
   $Apps = Get-ChildItem -Path "$($PSScriptRoot)\Apps" -Filter "*.7z" -Recurse
   foreach ( $App in $Apps ) {
@@ -70,7 +70,7 @@ function Start-BPInstallApps() {
 
 # Install docs.
 function Start-BPInstallDocs() {
-  Write-BPMsg -Title -Message "$($NL)--- Install Documents..."
+  Write-BPMsg -Title -Message "--- Install Documents..."
 
   Copy-Item "$($PSScriptRoot)\Docs\Git\.gitconfig" -Destination "$($Env:USERPROFILE)"
   Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
@@ -78,7 +78,7 @@ function Start-BPInstallDocs() {
 
 # Install PATH variable.
 function Start-BPInstallPath() {
-  Write-BPMsg -Title -Message "$($NL)--- Install PATH variable..."
+  Write-BPMsg -Title -Message "--- Install PATH variable..."
 
   if ( Test-Path "$($D_APPS)\7z" ) {
     [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\7z;", "User" )
@@ -108,7 +108,7 @@ function Write-BPMsg() {
   )
 
   if ( $Title ) {
-    Write-Host "$($Message)" -ForegroundColor Blue
+    Write-Host "$($NL)$($Message)" -ForegroundColor Blue
   } else {
     Write-Host "$($Message)"
   }
