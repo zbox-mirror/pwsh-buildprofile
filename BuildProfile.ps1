@@ -35,7 +35,7 @@ Param(
 
 function Start-BuildProfile() {
   # Directories.
-  $D_APPS       = "$($P_DriveLetter):\Apps"
+  $D_APPS       = "$($Env:USERPROFILE)\Apps"
   $D_DOCS       = "$($P_DriveLetter):\Documents"
   $D_DOWNLOADS  = "$($P_DriveLetter):\Downloads"
   $D_MUSIC      = "$($P_DriveLetter):\Music"
