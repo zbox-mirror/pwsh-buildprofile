@@ -85,7 +85,7 @@ function Start-BPInstallDirs() {
     "$($D_VIDEOS)"
   )
 
-  foreach ($Dir in $Dirs) {
+  foreach ( $Dir in $Dirs ) {
     if ( -not ( Test-Path "$($Dir)" ) ) { New-Item -Path "$($Dir)" -ItemType "Directory" }
   }
 }
