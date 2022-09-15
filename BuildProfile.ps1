@@ -73,7 +73,7 @@ function Start-BuildData() {
 # -------------------------------------------------------------------------------------------------------------------- #
 
 function Start-BPInstallDirs() {
-  Write-BPMsg -T "HL" -M "--- Check & Create Directories on Disk D:..."
+  Write-BPMsg -T "HL" -M "Check & Create Directories on Disk D:..."
 
   $Dirs = @(
     "$($D_APPS)"
@@ -91,7 +91,7 @@ function Start-BPInstallDirs() {
 }
 
 function Start-BPInstallApps() {
-  Write-BPMsg -T "HL" -M "--- Install Apps..."
+  Write-BPMsg -T "HL" -M "Install Apps..."
 
   $Apps = Get-ChildItem -Path "$($PSScriptRoot)\Apps" -Filter "*.7z" -Recurse
   foreach ( $App in $Apps ) {
@@ -100,14 +100,14 @@ function Start-BPInstallApps() {
 }
 
 function Start-BPInstallDocs() {
-  Write-BPMsg -T "HL" -M "--- Install Documents..."
+  Write-BPMsg -T "HL" -M "Install Documents..."
 
   Copy-Item "$($PSScriptRoot)\Docs\Git\.gitconfig" -Destination "$($Env:USERPROFILE)"
   Copy-Item "$($PSScriptRoot)\Docs\Git\.git-credentials" -Destination "$($Env:USERPROFILE)"
 }
 
 function Start-BPInstallPath() {
-  Write-BPMsg -T "HL" -M "--- Install PATH variable..."
+  Write-BPMsg -T "HL" -M "Install PATH variable..."
 
   if ( Test-Path "$($D_APPS)\7z" ) {
     [Environment]::SetEnvironmentVariable( "Path", ([Environment]::GetEnvironmentVariables("User")).Path + "$($D_APPS)\7z;", "User" )
@@ -130,16 +130,26 @@ function Write-BPMsg() {
   param (
     [Alias("M")]
     [string]$Message,
+
     [Alias("T")]
-    [string]$Type = ""
+    [string]$Type,
+
+    [Alias("A")]
+    [string]$Action = "Continue"
   )
 
   switch ( $Type ) {
     "HL" {
-      Write-Host "$($NL)$($Message)" -ForegroundColor Blue
+      Write-Host "$($NL)--- $($Message)" -ForegroundColor Blue
     }
-    "Error" {
-      Write-Host "[ERROR] $($Message)" -ForegroundColor Red
+    "I" {
+      Write-Information -MessageData "$($Message)" -InformationAction "$($Action)"
+    }
+    "W" {
+      Write-Warning -Message "$($Message)" -WarningAction "$($Action)"
+    }
+    "E" {
+      Write-Error -Message "$($Message)" -ErrorAction "$($Action)"
     }
     default {
       Write-Host "$($Message)"
@@ -151,6 +161,7 @@ function Expand-7z() {
   param (
     [Alias("I")]
     [string]$In,
+
     [Alias("O")]
     [string]$Out
   )

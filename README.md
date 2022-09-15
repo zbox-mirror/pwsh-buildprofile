@@ -15,8 +15,8 @@
 
 ## Синтаксис
 
-```
-.\BuildProfile.ps1 -DL "E" -IA -ID -IP
+```powershell
+.\BuildProfile.ps1 -DL 'E' -IA -ID -IP
 ```
 
-1. Построить профиль на диске `E`.
+- Построить профиль на диске `E`.
