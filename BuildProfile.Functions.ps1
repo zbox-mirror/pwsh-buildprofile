@@ -70,7 +70,7 @@ function Write-BPMsg() {
 
   switch ( $Type ) {
     "HL" {
-      Write-Host "$($NL)--- $($Message)" -ForegroundColor Blue
+      Write-Host "$($NL)--- $($Message)".ToUpper() -ForegroundColor Blue
     }
     "I" {
       Write-Information -MessageData "$($Message)" -InformationAction "$($Action)"
